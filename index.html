@@ -1332,7 +1332,7 @@ const QUESTIONS = {
    call fails (offline, quota, key revoked) so the survey never stalls. */
 const US_API_KEY  = '6Abv672EZK0knh0sei0k8u3xhLMwDZAyapM8LOTkD9AvkjD0mCK4Xj';
 const US_VOICE_ID = 'af_bella';
-const US_TTS_URL  = 'https://api.v6.unrealspeech.com/stream';
+const US_TTS_URL  = 'https://api.v8.unrealspeech.com/stream';
 
 const ttsAudio = new Audio();
 ttsAudio.preload = 'auto';
@@ -1359,8 +1359,8 @@ function fetchTTS(text) {
       Text:    text,
       VoiceId: US_VOICE_ID,
       Bitrate: '192k',
-      Speed:   '0',
-      Pitch:   '1.0'
+      Speed:   0,
+      Pitch:   1.0
     })
   }).then(res => {
     if (!res.ok) throw new Error('UnrealSpeech TTS HTTP ' + res.status);
@@ -1833,7 +1833,6 @@ function submitNoEmail() {
    INIT
 ════════════════════════════════════════════ */
 updateProgress();
-prefetchQuestionAudio();   // warm ElevenLabs audio cache while user reads welcome screen
 </script>
 </body>
 </html>
