@@ -1330,11 +1330,9 @@ const QUESTIONS = {
    All spoken audio comes from ElevenLabs (Flash model for low latency).
    Browser speechSynthesis is kept ONLY as a silent fallback if the API
    call fails (offline, quota, key revoked) so the survey never stalls. */
-const EL_API_KEY  = '9b40482008f71b16c3365effe15814eab47301f50039324563b7bf1936efc78b';
-const EL_VOICE_ID = 'DXFkLCBUTmvXpp2QwZjA';
-const EL_MODEL    = 'eleven_flash_v2_5';
-const EL_TTS_URL  = 'https://api.elevenlabs.io/v1/text-to-speech/' + EL_VOICE_ID
-                  + '?output_format=mp3_44100_128';
+const US_API_KEY  = '6Abv672EZK0knh0sei0k8u3xhLMwDZAyapM8LOTkD9AvkjD0mCK4Xj';
+const US_VOICE_ID = 'af_bella';
+const US_TTS_URL  = 'https://api.v6.unrealspeech.com/stream';
 
 const ttsAudio = new Audio();
 ttsAudio.preload = 'auto';
@@ -1354,16 +1352,18 @@ function unlockTTSAudio() {
 }
 
 function fetchTTS(text) {
-  return fetch(EL_TTS_URL, {
+  return fetch(US_TTS_URL, {
     method:  'POST',
-    headers: { 'xi-api-key': EL_API_KEY, 'Content-Type': 'application/json' },
+    headers: { 'Authorization': 'Bearer ' + US_API_KEY, 'Content-Type': 'application/json' },
     body:    JSON.stringify({
-      text,
-      model_id: EL_MODEL,
-      voice_settings: { stability: 0.5, similarity_boost: 0.75 }
+      Text:    text,
+      VoiceId: US_VOICE_ID,
+      Bitrate: '192k',
+      Speed:   '0',
+      Pitch:   '1.0'
     })
   }).then(res => {
-    if (!res.ok) throw new Error('ElevenLabs TTS HTTP ' + res.status);
+    if (!res.ok) throw new Error('UnrealSpeech TTS HTTP ' + res.status);
     return res.blob();
   }).then(blob => URL.createObjectURL(blob));
 }
